@@ -1,11 +1,8 @@
 // function to list food items with or without sepecified category
 function listFood(arr, category = '') {
-    let result = []
 
-    arr.forEach(value => {
-        let pattern = `.*${value.category}.*`
-        let re = new RegExp(pattern, 'i')
-        if (re.test(category) || category === '') result.push({ name: value.foodname, category: value.category })
+    let result = arr.filter(value => {
+        return value.category.includes(category)
     })
 
     return result
@@ -13,18 +10,11 @@ function listFood(arr, category = '') {
 
 // function to filter data by calorie either above 100 or below 
 function filterByCal(arr, area = 'above') {
-    let result = []
 
-    if (area === 'above') {
-        arr.forEach(value => {
-            if (value.calorie > 100) result.push(value)
-        })
-    }
-    else {
-        arr.forEach(value => {
-            if (value.calorie < 100) result.push(value)
-        })
-    }
+    let result = arr.filter(value => {
+        if (area === 'above') return value.calorie > 100
+        else return value.calorie < 100
+    })
 
     return result
 }
@@ -32,7 +22,6 @@ function filterByCal(arr, area = 'above') {
 
 // function to sort array by protien in descending order or by cab in ascending
 function sortBy(data, category) {
-    // console.log(data.length)
     let arr = [...data]
     if (category == 'protien') {
         arr.sort((a, b) => b.protiens - a.protiens)
@@ -53,13 +42,12 @@ async function main() {
 
     // list of food items
     const query1 = listFood(data)
-    const query2 = listFood(data, 'fruit')
-    const query3 = listFood(data, 'vegetables')
-    const query4 = listFood(data, 'protein')
-    const query5 = listFood(data, 'nuts')
-    const query6 = listFood(data, 'grains')
-    const query7 = listFood(data, 'dairy')
-
+    const query2 = listFood(data, 'Fruit')
+    const query3 = listFood(data, 'Vegetable')
+    const query4 = listFood(data, 'Protein')
+    const query5 = listFood(data, 'Nuts')
+    const query6 = listFood(data, 'Grain')
+    const query7 = listFood(data, 'Dairy')
 
     // above 100 cal
     const query8 = filterByCal(data, 'above')
@@ -71,7 +59,6 @@ async function main() {
 
     // lowest cab to highest
     const query11 = sortBy(data, 'cab')
-    console.log(query2)
 }
 
 main()
